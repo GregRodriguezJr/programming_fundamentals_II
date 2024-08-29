@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# Ignore everything in the cmake-build-debug directory
+cmake-build-debug/
