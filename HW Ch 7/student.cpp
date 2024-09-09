@@ -7,9 +7,9 @@
 // Grades are assigned on a 10 point spread.  
 // 90-100 A   80- 89 B  70-79 C   60-69 D   Below 60 F
 
-// PLACE YOUR NAME HERE
+// Greg Rodriguez 9/8/2024
 
-
+#include <iomanip>
 #include <iostream>
 using namespace std;
 
@@ -37,6 +37,7 @@ int main()
 	GradeType  grades;                 // grades is defined as a one dimensional array 
 	float average;                     // holds the average of a student's grade
     char moreinput;                    // determines if there is more input
+    char letterGrade;                  // holds the letter grade of student
 
     // Input the number of grades for each student
 
@@ -75,13 +76,17 @@ int main()
 			cout << endl << "Please input a grade" << endl;
 		
 			// Fill in the input statement to place grade in the array
-
+            cin >> grades[count];
 		}
 
         cout << firstname << ' ' << lastname << " has an average of "; 
 	
 		// Fill in code to get and print average of student to screen
+        average = findGradeAvg(grades, numOfGrades);
+        cout << fixed << setprecision(2) << average;
 		// Fill in call to get and print letter grade of student to screen
+        letterGrade = findLetterGrade(average);
+        cout << " which gives the letter grade of " << letterGrade << endl;
 	    
 		cout << endl << endl << endl;
 		cout << "Please input a y if you want to input more students"
@@ -107,10 +112,12 @@ int main()
 float findGradeAvg(GradeType array, int numgrades)
 
 {
-
     // Fill in the code for this function
-
-
+    float total = 0;
+    for(int i = 0; i < numgrades; i++){
+        total += array[i];
+    }
+    return total / numgrades;
 }
 
 //***********************************************************************
@@ -128,8 +135,18 @@ float findGradeAvg(GradeType array, int numgrades)
 char  findLetterGrade(float numgrade)
 
 {
-	
   // Fill in the code for this function
-
-
+    char grade;
+    if (numgrade >= 90){
+        grade = 'A';
+    } else if (numgrade >= 80 && numgrade < 90){
+        grade = 'B';
+    } else if (numgrade >= 70 && numgrade < 80) {
+        grade = 'C';
+    } else if (numgrade >= 60 && numgrade < 70){
+        grade = 'D';
+    } else{
+        grade = 'F';
+    }
+    return grade;
 }

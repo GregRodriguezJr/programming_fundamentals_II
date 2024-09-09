@@ -3,14 +3,14 @@
 // It will calculate year and quarter total transactions.
 
 
-// PLACE YOUR NAME HERE
+// Greg Rodriguez 9/8/2024
 
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
-const  MAXYEAR = 10;
-const  MAXCOL = 5;
+const  int MAXYEAR = 10;
+const  int MAXCOL = 5;
 
 typedef int SalesType[MAXYEAR][MAXCOL];   // creates a new 2D integer data type
 
@@ -51,7 +51,7 @@ void printTableHeading()
 {
 	cout << setw(30) << "YEARLY QUARTERLY SALES" << endl << endl << endl;
 	
-	cout << setw(10) << "YEAR" << setw(10) << "Quarter 1"
+	cout << left << setw(10) << "YEAR" << setw(10) << "Quarter 1"
 	 	 << setw(10) << "Quarter 2" << setw(10) << "Quarter 3"
 		 << setw(10) << "Quarter 4" << endl;
 }
@@ -72,12 +72,30 @@ void printTableHeading()
 
 void   getSales(SalesType  table, int&  numOfYears)
 {
+    bool isYearInput;
 
 	cout << "Please input the number of years (1-" << MAXYEAR << ')' << endl;
 	cin >> numOfYears;
 	
 
 	// Fill in the code to read and store the next value
+    for (int row = 0;  row < numOfYears;  row++)
+    {
+        isYearInput = true;
+        for (int col = 0; col < 5;  col++) {
+            // Fill in the code to read and store the next value in the array
+            if(isYearInput){
+                cout << "Please input year " << row + 1 << endl;
+                cin >> table[row][col];
+            } else {
+                cout << "Please input sales for quarter " << col << endl;
+                cin >> table[row][col];
+            }
+
+            isYearInput = false;
+        }
+        cout << endl;
+    }
 
 }
 
@@ -96,4 +114,12 @@ void   getSales(SalesType  table, int&  numOfYears)
 void   printSales(SalesType table, int numOfYears)
 {
 	// Fill in the code to print the table
+    for (int row = 0;  row < numOfYears; row++)
+    {
+        for (int col = 0;  col < 5; col++){
+            // Fill in the code to print the table
+            cout << left << setw(10) << table[row][col] << " ";
+        }
+        cout << endl;
+    }
 }
