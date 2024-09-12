@@ -15,13 +15,11 @@ using namespace std;
 const int MAXSIZE = 20;
 
 ifstream dataIn;		                                            // defines an input stream for files
-
 typedef char ScantronType[MAXSIZE];                                 // Creates a new data type array to hold char values
-
 bool getAnswers(ScantronType, string);                              // This function gets the correct and students answers from user
 void checkAnswers(ScantronType, ScantronType, ScantronType, int);   // Function to compare arrays and store results in new array
 void printResults(const ScantronType, int);                         // Function to print results to terminal
-void printWrongAnswers(const ScantronType, int);                    // Function to print wrong answers to the terminal
+void printWrongAnswers(const ScantronType, const ScantronType, const ScantronType, int);// Function to print wrong answers to the terminal
 
 
 int main() {
@@ -35,13 +33,15 @@ int main() {
     bool answersIsValid;                                // Variable to hold if read file is successful
     bool studentIsValid;                                // Variable to hold if read file is successful
 
+    cout << setw(48) << "Welcome to Exam Grader\n";                        // Prompt user
+
     answersIsValid = getAnswers(correctAnswers, answerFile);    // function call to read file to get correct answers into an array
     studentIsValid = getAnswers(studentAnswers, studentFile);   // function call to read file to get student answers into an array
 
-    if(answersIsValid && studentIsValid){
-        // read file of student answers into an array
-
-        // compare arrays to check for incorrect answers
+    if(answersIsValid && studentIsValid){                                    // functions calls if no error reading files
+        checkAnswers(correctAnswers, studentAnswers, resultAnswers, arraySize);
+        printResults(resultAnswers, arraySize);
+        printWrongAnswers( resultAnswers, correctAnswers, studentAnswers, arraySize);
     }
 
     return 0;
@@ -76,13 +76,76 @@ bool getAnswers(ScantronType array, string fileName){
     return isValid;
 }
 
+//***********************************************************************
+//                              checkAnswers
+//
+//  task: Comparing two arrays and putting results into a new array.
+//  data in: StudentAnswers, correctAnswers, resultAnswers and array size is taken in as an arguments.
+//  data returned: None, the function stores the new array with results.
+//
+//***********************************************************************
+void checkAnswers(ScantronType correctAnswers,ScantronType studentAnswers, ScantronType resultAnswers, int arraySize){
 
-// print the following
-//A list of the questions missed by the student, showing the correct answer and the
-//incorrect answer provided by the student for each missed question
-//The total number of questions missed
-//The percentage of questions answered correctly.
-//This can be calculated as: Correctly Answered Questions ÷ Total Number of Questions
-//If the percentage of correctly answered questions is 70% or greater,
-//the program should indicate that the student passed the exam. Otherwise,
-//it should indicate that the student failed the exam.
+    for(int i = 0; i < arraySize; i++){
+        if(studentAnswers[i] == correctAnswers[i]){
+            resultAnswers[i] = 'T';
+        } else{
+            resultAnswers[i] = 'F';
+        }
+    }
+}
+
+//***********************************************************************
+//                              printResults
+//
+//  task: To print number of correct answers, incorrect answers, and if pass/fail.
+//  data in: ResultAnswers and array size is taken in as an arguments.
+//  data returned: None, the function calculates passing grade prints results.
+//
+//***********************************************************************
+void printResults(const ScantronType resultAnswers, int arraySize){
+    int numCorrect = 0;
+    int score;
+
+    for (int i = 0; i < arraySize; ++i) {
+        if(resultAnswers[i] == 'T') {
+            numCorrect++;
+        }
+    }
+
+    score = 100/arraySize * numCorrect;
+
+    cout << "\nNumber of correct answers: " << numCorrect << endl;
+    cout << "Number of incorrect answers: " << arraySize - numCorrect << endl;
+
+    if(score >= 70) {
+        cout << "Student Passed with a " << score << "%\n" << endl;
+    } else {
+        cout << "Student Failed with a " << score << "%\n" << endl;
+    }
+}
+
+//***********************************************************************
+//                              printWrongAnswers
+//
+//  task: To print incorrect answers and correct answers to display results.
+//  data in: All arrays and array size is taken in as an arguments.
+//  data returned: None, the function prints wrong questions with correct answers and "none" if they're all right.
+//
+//***********************************************************************
+void printWrongAnswers(const ScantronType resultAnswers, const ScantronType correctAnswers, const ScantronType studentAnswers, int arraySize){
+    int numWrong = 0;
+    cout << "Incorrect answered questions \n";
+
+    for (int i = 0; i < arraySize; ++i) {
+        if(resultAnswers[i] == 'F'){
+            cout << i + 1 << ". Student answer: " << studentAnswers[i] << "  correct answer: " << correctAnswers[i] << endl;
+            numWrong++;
+        }
+    }
+
+    if(numWrong == 0) {
+        cout << "None";
+    }
+    cout << endl;
+}
