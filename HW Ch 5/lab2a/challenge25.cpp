@@ -1,7 +1,7 @@
 // Ch. 5 & 7 PC #25 Using Files - Student line up
 // Created by Greg Rodriguez
 // COSC 1437
-// 9/11/24
+// 9/13/24
 // Purpose: To read a file with a list of students and determine who is first and last in alphabetical order.
 // Input: Text file to read the list of strings.
 // Output: The first and last student, and also a full list in alphabetical order.
